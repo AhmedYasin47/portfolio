@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahmed Yasin Kaçan — Computer Engineer</title>
+<meta name="description" content="Ahmed Yasin Kaçan — Bilgisayar Mühendisi. Yazılım, oyun ve mobil uygulama geliştirme.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0c0c;
+    --bg-soft:#161616;
+    --panel:#1a1a1a;
+    --ink:#f5f5f0;
+    --ink-soft:#a8a8a0;
+    --muted:#6a6a64;
+    --yellow:#ffe000;
+    --yellow-deep:#f5c400;
+    --line:#2a2a2a;
+    --line-y:rgba(255,224,0,.25);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Space Grotesk',-apple-system,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--yellow);color:#000}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 32px}
+  .mono{font-family:'JetBrains Mono',monospace}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(12,12,12,.85);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px;letter-spacing:-.01em}
+  .brand svg{width:34px;height:34px;flex-shrink:0}
+  .brand .y{color:var(--yellow)}
+  .nav-links{display:flex;gap:30px}
+  .nav-links a{
+    color:var(--ink-soft);text-decoration:none;font-size:14px;font-weight:500;
+    transition:color .2s;
+  }
+  .nav-links a:hover{color:var(--yellow)}
+  @media(max-width:680px){.nav-links{display:none}}
+
+  /* HERO */
+  header.hero{padding:80px 0 50px;position:relative}
+  .hero-tag{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:13px;
+    color:var(--yellow);border:1px solid var(--line-y);border-radius:6px;
+    padding:6px 14px;margin-bottom:26px;letter-spacing:.02em;
+  }
+  h1{
+    font-weight:700;font-size:clamp(40px,8vw,84px);line-height:.98;
+    letter-spacing:-.03em;margin-bottom:24px;
+  }
+  h1 .hl{
+    color:var(--yellow);
+    position:relative;
+  }
+  .lead{font-size:19px;color:var(--ink-soft);max-width:54ch;margin-bottom:34px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+    font-size:15px;font-weight:600;padding:14px 26px;border-radius:8px;
+    transition:.2s;cursor:pointer;border:none;
+  }
+  .btn-primary{background:var(--yellow);color:#000}
+  .btn-primary:hover{background:var(--yellow-deep);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--yellow);color:var(--yellow)}
+
+  /* SECTION */
+  section{padding:70px 0;position:relative}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:44px}
+  .sec-num{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--yellow)}
+  h2{font-weight:700;font-size:clamp(28px,4vw,40px);letter-spacing:-.02em}
+  .sec-line{flex:1;height:1px;background:var(--line)}
+
+  /* PROJECTS */
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:26px}
+  .proj-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;transition:.3s;display:flex;flex-direction:column;
+  }
+  .proj-card:hover{border-color:var(--yellow);transform:translateY(-4px)}
+  .proj-shot{
+    position:relative;overflow:hidden;background:var(--bg-soft);
+    aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;
+  }
+  .proj-shot img{
+    width:100%;height:100%;object-fit:cover;
+    opacity:.45;filter:grayscale(35%);
+    transform:scale(1.02);
+    transition:opacity .45s ease,filter .45s ease,transform .45s ease;
+  }
+  .proj-card:hover .proj-shot img{opacity:1;filter:grayscale(0);transform:scale(1)}
+  .proj-shots-2{display:grid;grid-template-columns:1fr 1fr;gap:2px;aspect-ratio:16/10}
+  .proj-shots-2 .s{overflow:hidden;background:var(--bg-soft)}
+  .proj-shots-2 img{
+    width:100%;height:100%;object-fit:cover;
+    opacity:.45;filter:grayscale(35%);
+    transition:opacity .45s ease,filter .45s ease,transform .45s ease;
+  }
+  .proj-card:hover .proj-shots-2 img{opacity:1;filter:grayscale(0)}
+  .proj-body{padding:24px;flex:1;display:flex;flex-direction:column}
+  .proj-tag{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--yellow);
+    letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;
+  }
+  .proj-card h3{font-size:23px;font-weight:600;margin-bottom:10px;letter-spacing:-.01em}
+  .proj-card p{font-size:15px;color:var(--ink-soft);flex:1}
+  .proj-stack{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}
+  .proj-stack span{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft);
+    background:var(--bg-soft);border:1px solid var(--line);
+    padding:5px 11px;border-radius:6px;
+  }
+
+  /* SKILLS */
+  .skill-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+  .skill-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px}
+  .skill-card h3{font-size:15px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px}
+  .skill-card h3::before{content:'';width:8px;height:8px;background:var(--yellow);border-radius:2px}
+  .chips{display:flex;flex-wrap:wrap;gap:9px}
+  .chip{
+    font-family:'JetBrains Mono',monospace;font-size:13px;
+    padding:7px 13px;border-radius:7px;
+    background:var(--bg-soft);color:var(--ink-soft);border:1px solid var(--line);
+    transition:.2s;
+  }
+  .chip:hover{border-color:var(--yellow);color:var(--yellow)}
+
+  /* ABOUT + EXPERIENCE */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+  @media(max-width:780px){.two-col{grid-template-columns:1fr;gap:36px}}
+  .about-text{font-size:17px;color:var(--ink-soft)}
+  .about-text strong{color:var(--ink);font-weight:600}
+  .exp-item{border-left:2px solid var(--yellow);padding-left:22px;margin-bottom:28px}
+  .exp-item:last-child{margin-bottom:0}
+  .exp-role{font-size:18px;font-weight:600}
+  .exp-meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--yellow);margin:3px 0 10px}
+  .exp-desc{font-size:15px;color:var(--ink-soft)}
+  .exp-desc ul{list-style:none;margin-top:8px}
+  .exp-desc li{padding-left:16px;position:relative;margin:5px 0}
+  .exp-desc li::before{content:'▹';position:absolute;left:0;color:var(--yellow)}
+
+  /* CONTACT */
+  #contact{padding-bottom:90px}
+  .contact-box{
+    background:var(--yellow);color:#000;border-radius:20px;padding:54px 44px;
+    text-align:center;position:relative;overflow:hidden;
+  }
+  .contact-box h2{font-size:clamp(30px,5vw,46px);margin-bottom:14px;color:#000}
+  .contact-box p{font-size:17px;color:#1a1a1a;max-width:46ch;margin:0 auto 30px;opacity:.85}
+  .contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .contact-links a{
+    display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+    font-weight:600;font-size:15px;color:#000;
+    background:#0c0c0c;color:var(--yellow);
+    padding:13px 24px;border-radius:9px;transition:.2s;
+  }
+  .contact-links a:hover{transform:translateY(-2px);background:#000}
+  .contact-links a svg{width:18px;height:18px}
+
+  footer{
+    border-top:1px solid var(--line);padding:34px 0;
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  }
+  footer .mono{font-size:13px;color:var(--muted)}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(24px);transition:.7s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#top" class="brand" style="text-decoration:none;color:inherit">
+      <!-- tatlı kedi logosu (SVG) -->
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="kedi logo">
+        <path d="M10 14 L10 6 L18 12 Z" fill="#ffe000"/>
+        <path d="M38 14 L38 6 L30 12 Z" fill="#ffe000"/>
+        <circle cx="24" cy="26" r="16" fill="#ffe000"/>
+        <circle cx="18" cy="24" r="2.4" fill="#0c0c0c"/>
+        <circle cx="30" cy="24" r="2.4" fill="#0c0c0c"/>
+        <path d="M22 30 Q24 32 26 30" stroke="#0c0c0c" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        <path d="M24 28 L23 30 L25 30 Z" fill="#0c0c0c"/>
+        <line x1="8"  y1="27" x2="15" y2="27" stroke="#0c0c0c" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="8"  y1="30" x2="15" y2="30" stroke="#0c0c0c" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="40" y1="27" x2="33" y2="27" stroke="#0c0c0c" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="40" y1="30" x2="33" y2="30" stroke="#0c0c0c" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+      <span>Ahmed Yasin <span class="y">Kaçan</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#projects">Projeler</a>
+      <a href="#skills">Yetenekler</a>
+      <a href="#about">Hakkımda</a>
+      <a href="#contact">İletişim</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-tag mono">// Bilgisayar Mühendisi · Ankara</div>
+    <h1>Yazılım, <span class="hl">oyun</span> ve mobil<br>uygulama geliştiriyorum.</h1>
+    <p class="lead">Türk Hava Kurumu Üniversitesi'nde Bilgisayar Mühendisliği okuyorum. Mobil uygulamalar, Unity ile 2D/3D oyunlar ve gömülü sistem / İHA projeleri üzerine çalışıyorum.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">Projelere bak →</a>
+      <a href="#contact" class="btn btn-ghost">İletişim</a>
+    </div>
+  </div>
+</header>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">01</span>
+      <h2>Projeler</h2>
+      <span class="sec-line"></span>
+    </div>
+    <div class="proj-grid">
+
+      <div class="proj-card">
+        <div class="proj-shots-2">
+          <div class="s"><img src="assets/socialsaver-1.jpeg" alt="Social Saver ana ekran" loading="lazy"></div>
+          <div class="s"><img src="assets/socialsaver-2.jpeg" alt="Social Saver ayarlar" loading="lazy"></div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tag">Mobil · Flutter</div>
+          <h3>Social Saver</h3>
+          <p>Flutter ile geliştirdiğim mobil uygulama. Asenkron indirme yönetimi, indirme geçmişi, çoklu dil desteği (TR/EN) ve karanlık mod gibi özellikler içeriyor. Durum yönetimi ve kullanıcı arayüzü tasarımı üzerine yoğunlaştım.</p>
+          <div class="proj-stack"><span>Flutter</span><span>Dart</span><span>async</span><span>i18n</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-shots-2">
+          <div class="s"><img src="assets/platformer-1.jpeg" alt="Platform oyunu" loading="lazy"></div>
+          <div class="s"><img src="assets/platformer-2.jpeg" alt="Platform oyunu düşmanlar" loading="lazy"></div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tag">Oyun · 2D Pixel-Art</div>
+          <h3>2D Platform Oyunu</h3>
+          <p>Pixel-art tarzında, dokunmatik kontrollü 2D platform oyunu. Can (HP) sistemi, düşmanlar, platform fiziği ve etkileşim mekanikleri içeriyor. Oyun döngüsü ve karakter kontrolü mantığı üzerine çalıştım.</p>
+          <div class="proj-stack"><span>Unity</span><span>C#</span><span>2D Physics</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-shots-2">
+          <div class="s"><img src="assets/unity3d-1.png" alt="3D atış oyunu oynanış" loading="lazy"></div>
+          <div class="s"><img src="assets/unity3d-2.png" alt="3D oyun düşman AI ayarları" loading="lazy"></div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tag">Oyun · 3D Unity</div>
+          <h3>Dalga Tabanlı Atış Oyunu</h3>
+          <p>Unity ile geliştirdiğim 3D oyun. Dalga (wave) sistemi, düşman yapay zekâsı (Zig-Zag hareket), Rigidbody fizik, can/hasar sistemi ve "power shot" mekaniği içeriyor. Düşman davranışlarını ve oyun durumunu yöneten kod mimarisini kurdum.</p>
+          <div class="proj-stack"><span>Unity</span><span>C#</span><span>Rigidbody</span><span>Enemy AI</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">02</span>
+      <h2>Yetenekler</h2>
+      <span class="sec-line"></span>
+    </div>
+    <div class="skill-groups">
+      <div class="skill-card">
+        <h3>Programlama Dilleri</h3>
+        <div class="chips">
+          <span class="chip">Python</span><span class="chip">Java</span><span class="chip">C</span>
+          <span class="chip">C++</span><span class="chip">C#</span><span class="chip">SQL</span><span class="chip">Dart</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Araçlar &amp; Platformlar</h3>
+        <div class="chips">
+          <span class="chip">Unity</span><span class="chip">Flutter</span><span class="chip">AutoCAD</span><span class="chip">Office</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Donanım &amp; Gömülü</h3>
+        <div class="chips">
+          <span class="chip">Drone / İHA</span><span class="chip">Lehimleme</span><span class="chip">Donanım montajı</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">03</span>
+      <h2>Hakkımda</h2>
+      <span class="sec-line"></span>
+    </div>
+    <div class="two-col">
+      <div>
+        <p class="about-text">Türk Hava Kurumu Üniversitesi'nde <strong>Bilgisayar Mühendisliği</strong> öğrencisiyim. İlgi alanlarım <strong>yazılım geliştirme, oyun geliştirme, gömülü sistemler ve İHA (drone) teknolojileri</strong>. Eğitimim boyunca Python, Java ve C++ ile çalıştım; bunun yanında Unity ile oyun, Flutter ile mobil uygulama geliştirdim. Stajımda drone sistemleri, donanım montajı ve arayüz geliştirme üzerine pratik deneyim kazandım.</p>
+      </div>
+      <div>
+        <div class="exp-item">
+          <div class="exp-role">Tulen Technology and Defence</div>
+          <div class="exp-meta mono">STAJ · 2 ay</div>
+          <div class="exp-desc">
+            <ul>
+              <li>Drone (İHA) sistemleri üzerine çalıştım</li>
+              <li>Donanım montajı ve lehimleme</li>
+              <li>Basit kullanıcı arayüzü geliştirme</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-role">Türk Hava Kurumu Üniversitesi</div>
+          <div class="exp-meta mono">2022 – 2027 · Bilgisayar Mühendisliği</div>
+          <div class="exp-desc">Lisans eğitimi · Yazılım, oyun ve gömülü sistemler odağı.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-box">
+      <h2>Birlikte çalışalım.</h2>
+      <p>Staj ve iş fırsatlarına açığım. Bir mesaj atmaktan çekinme.</p>
+      <div class="contact-links">
+        <a href="mailto:ahmedyasinkacan@gmail.com">✉ E-posta</a>
+        <a href="tel:+905340800040">☎ +90 534 080 00 40</a>
+        <a href="https://github.com/AhmedYasin47" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/ahmed-yasin-ka%C3%A7an-a14839245/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 20.4h-3.6v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6h.1c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 110-4.2 2.1 2.1 0 010 4.2zm1.8 13H3.5V9h3.6v11.4zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7c0-.9-.8-1.7-1.8-1.7z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:0 32px;max-width:1100px;margin:0 auto;width:100%">
+    <span class="mono">© 2026 Ahmed Yasin Kaçan</span>
+    <span class="mono">Ankara, Türkiye</span>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('section');
+  reveals.forEach(el => el.classList.add('reveal'));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, { threshold:.1 });
+  reveals.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
