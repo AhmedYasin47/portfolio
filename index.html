@@ -51,6 +51,37 @@
     transition:color .2s;
   }
   .nav-links a:hover{color:var(--yellow)}
+  /* --- dil secici (eklendi) --- */
+  .nav-right{display:flex;align-items:center;gap:24px}
+  .lang-switch{position:relative}
+  .lang-current{
+    display:flex;align-items:center;gap:7px;cursor:pointer;
+    background:var(--bg-soft);border:1px solid var(--line);border-radius:8px;
+    padding:6px 10px;transition:.2s;
+  }
+  .lang-current:hover{border-color:var(--yellow)}
+  .lang-current .caret{color:var(--ink-soft);font-size:11px;transition:transform .2s}
+  .lang-switch:hover .caret{transform:rotate(180deg)}
+  .flag, .flag-slot svg{width:24px;height:16px;border-radius:3px;display:block;box-shadow:0 0 0 1px rgba(255,255,255,.08)}
+  .flag-slot{display:flex}
+  .lang-menu{
+    position:absolute;top:calc(100% + 8px);right:0;
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:6px;min-width:160px;display:flex;flex-direction:column;gap:2px;
+    opacity:0;visibility:hidden;transform:translateY(-6px);
+    transition:.2s;z-index:60;
+    box-shadow:0 14px 40px rgba(0,0,0,.4);
+  }
+  .lang-switch:hover .lang-menu,
+  .lang-menu:hover{opacity:1;visibility:visible;transform:translateY(0)}
+  .lang-menu button{
+    display:flex;align-items:center;gap:10px;
+    background:transparent;border:none;cursor:pointer;
+    color:var(--ink-soft);font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:500;
+    padding:9px 11px;border-radius:7px;transition:.15s;text-align:left;width:100%;
+  }
+  .lang-menu button:hover{background:var(--bg-soft);color:var(--ink)}
+  .lang-menu button.active{color:var(--yellow)}
   @media(max-width:680px){.nav-links{display:none}}
 
   /* HERO */
@@ -88,7 +119,8 @@
   .sec-line{flex:1;height:1px;background:var(--line)}
 
   /* PROJECTS */
-  .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:26px}
+  .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+  @media(max-width:760px){.proj-grid{grid-template-columns:1fr}}
   .proj-card{
     background:var(--panel);border:1px solid var(--line);border-radius:14px;
     overflow:hidden;transition:.3s;display:flex;flex-direction:column;
@@ -99,7 +131,7 @@
     aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;
   }
   .proj-shot img{
-    width:100%;height:100%;object-fit:cover;
+    width:100%;height:100%;object-fit:contain;
     opacity:.45;filter:grayscale(35%);
     transform:scale(1.02);
     transition:opacity .45s ease,filter .45s ease,transform .45s ease;
@@ -108,11 +140,20 @@
   .proj-shots-2{display:grid;grid-template-columns:1fr 1fr;gap:2px;aspect-ratio:16/10}
   .proj-shots-2 .s{overflow:hidden;background:var(--bg-soft)}
   .proj-shots-2 img{
-    width:100%;height:100%;object-fit:cover;
+    width:100%;height:100%;object-fit:contain;
     opacity:.45;filter:grayscale(35%);
     transition:opacity .45s ease,filter .45s ease,transform .45s ease;
   }
   .proj-card:hover .proj-shots-2 img{opacity:1;filter:grayscale(0)}
+  /* yatay (oyun) görseller icin alt alta dizilim */
+  .proj-shots-stack{display:flex;flex-direction:column;gap:2px}
+  .proj-shots-stack .s{overflow:hidden;background:var(--bg-soft);aspect-ratio:16/9}
+  .proj-shots-stack img{
+    width:100%;height:100%;object-fit:contain;
+    opacity:.45;filter:grayscale(35%);
+    transition:opacity .45s ease,filter .45s ease,transform .45s ease;
+  }
+  .proj-card:hover .proj-shots-stack img{opacity:1;filter:grayscale(0)}
   .proj-body{padding:24px;flex:1;display:flex;flex-direction:column}
   .proj-tag{
     font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--yellow);
@@ -205,23 +246,36 @@
       </svg>
       <span>Ahmed Yasin <span class="y">Kaçan</span></span>
     </a>
-    <div class="nav-links">
-      <a href="#projects">Projeler</a>
-      <a href="#skills">Yetenekler</a>
-      <a href="#about">Hakkımda</a>
-      <a href="#contact">İletişim</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#projects" data-i18n="nav_projects">Projeler</a>
+        <a href="#skills" data-i18n="nav_skills">Yetenekler</a>
+        <a href="#about" data-i18n="nav_about">Hakkımda</a>
+        <a href="#contact" data-i18n="nav_contact">İletişim</a>
+      </div>
+      <div class="lang-switch" id="langSwitch">
+        <button class="lang-current" id="langCurrent" aria-label="Dil seç">
+          <span class="flag-slot" id="flagSlot"></span>
+          <span class="caret">▾</span>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <button data-lang="tr"><span class="flag" data-flag="tr"></span> Türkçe</button>
+          <button data-lang="en"><span class="flag" data-flag="en"></span> English</button>
+          <button data-lang="fr"><span class="flag" data-flag="fr"></span> Français</button>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
 
 <header class="hero" id="top">
   <div class="wrap">
-    <div class="hero-tag mono">// Bilgisayar Mühendisi · Ankara</div>
-    <h1>Yazılım, <span class="hl">oyun</span> ve mobil<br>uygulama geliştiriyorum.</h1>
-    <p class="lead">Türk Hava Kurumu Üniversitesi'nde Bilgisayar Mühendisliği okuyorum. Mobil uygulamalar, Unity ile 2D/3D oyunlar ve gömülü sistem / İHA projeleri üzerine çalışıyorum.</p>
+    <div class="hero-tag mono" data-i18n="hero_tag">// Bilgisayar Mühendisi · Ankara</div>
+    <h1 data-i18n="hero_title" data-i18n-html>Yazılım, <span class="hl">oyun</span> ve mobil<br>uygulama geliştiriyorum.</h1>
+    <p class="lead" data-i18n="hero_lead">Türk Hava Kurumu Üniversitesi'nde Bilgisayar Mühendisliği okuyorum. Mobil uygulamalar, Unity ile 2D/3D oyunlar ve gömülü sistem / İHA projeleri üzerine tecrübe kazandım.</p>
     <div class="hero-cta">
-      <a href="#projects" class="btn btn-primary">Projelere bak →</a>
-      <a href="#contact" class="btn btn-ghost">İletişim</a>
+      <a href="#projects" class="btn btn-primary" data-i18n="hero_cta1">Projelere bak →</a>
+      <a href="#contact" class="btn btn-ghost" data-i18n="hero_cta2">İletişim</a>
     </div>
   </div>
 </header>
@@ -229,8 +283,8 @@
 <section id="projects">
   <div class="wrap">
     <div class="sec-head">
-      <span class="sec-num mono">01</span>
-      <h2>Projeler</h2>
+      <span class="sec-num mono">*</span>
+      <h2 data-i18n="sec_projects">Projeler</h2>
       <span class="sec-line"></span>
     </div>
     <div class="proj-grid">
@@ -243,34 +297,47 @@
         <div class="proj-body">
           <div class="proj-tag">Mobil · Flutter</div>
           <h3>Social Saver</h3>
-          <p>Flutter ile geliştirdiğim mobil uygulama. Asenkron indirme yönetimi, indirme geçmişi, çoklu dil desteği (TR/EN) ve karanlık mod gibi özellikler içeriyor. Durum yönetimi ve kullanıcı arayüzü tasarımı üzerine yoğunlaştım.</p>
-          <div class="proj-stack"><span>Flutter</span><span>Dart</span><span>async</span><span>i18n</span></div>
+          <p data-i18n="p1_desc">Flutter ile geliştirdiğim bu uygualama, özellikle sosyal medya içeriklerini rahatça galeriye indirmek için tasarlandı. Proje'de api kullanımı ve kullanıcı deneyimi gibi kavramlar üzerine çalıştım.</p>
+          <div class="proj-stack"><span>Flutter</span><span>RapidAPI</span><span>i18n</span></div>
         </div>
       </div>
 
       <div class="proj-card">
-        <div class="proj-shots-2">
+        <div class="proj-shots-stack">
           <div class="s"><img src="assets/platformer-1.jpeg" alt="Platform oyunu" loading="lazy"></div>
           <div class="s"><img src="assets/platformer-2.jpeg" alt="Platform oyunu düşmanlar" loading="lazy"></div>
         </div>
         <div class="proj-body">
-          <div class="proj-tag">Oyun · 2D Pixel-Art</div>
-          <h3>2D Platform Oyunu</h3>
-          <p>Pixel-art tarzında, dokunmatik kontrollü 2D platform oyunu. Can (HP) sistemi, düşmanlar, platform fiziği ve etkileşim mekanikleri içeriyor. Oyun döngüsü ve karakter kontrolü mantığı üzerine çalıştım.</p>
+          <div class="proj-tag" data-i18n="p2_tag">Oyun · 2D Pixel-Art</div>
+          <h3 data-i18n="p2_title">2D Platform Oyunu</h3>
+          <p data-i18n="p2_desc">Pixel-art tarzında, dokunmatik kontrollü 2D platform oyunu. Can sistemi, düşmanlar, platform fiziği ve etkileşim mekanikleri içeriyor. Oyun döngüsü ve karakter kontrolü mantığı üzerine çalıştım. Hepsi hazır assettir.</p>
           <div class="proj-stack"><span>Unity</span><span>C#</span><span>2D Physics</span></div>
         </div>
       </div>
 
       <div class="proj-card">
-        <div class="proj-shots-2">
+        <div class="proj-shots-stack">
           <div class="s"><img src="assets/unity3d-1.png" alt="3D atış oyunu oynanış" loading="lazy"></div>
           <div class="s"><img src="assets/unity3d-2.png" alt="3D oyun düşman AI ayarları" loading="lazy"></div>
         </div>
         <div class="proj-body">
-          <div class="proj-tag">Oyun · 3D Unity</div>
-          <h3>Dalga Tabanlı Atış Oyunu</h3>
-          <p>Unity ile geliştirdiğim 3D oyun. Dalga (wave) sistemi, düşman yapay zekâsı (Zig-Zag hareket), Rigidbody fizik, can/hasar sistemi ve "power shot" mekaniği içeriyor. Düşman davranışlarını ve oyun durumunu yöneten kod mimarisini kurdum.</p>
-          <div class="proj-stack"><span>Unity</span><span>C#</span><span>Rigidbody</span><span>Enemy AI</span></div>
+          <div class="proj-tag" data-i18n="p3_tag">Oyun · 3D Unity</div>
+          <h3 data-i18n="p3_title">Dalga Tabanlı Atış Oyunu</h3>
+          <p data-i18n="p3_desc">Unity ile geliştirdiğim 3D oyun. Basit Enemy AI ve Game Physics sistemleri içeriyor. Asset implementasyonu ve oyun mekaniği üzerine çalıştım. Oyun 3 dalga üzerine gelen düşmanları temizlemek üzerine kurulu.</p>
+          <div class="proj-stack"><span>Unity</span><span>C#</span><span>Game Physics</span><span>Enemy AI</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-shots-stack">
+          <div class="s"><img src="assets/gym-1.png" alt="Gym Management System dashboard" loading="lazy"></div>
+          <div class="s"><img src="assets/gym-2.png" alt="Gym Management System ekipman envanteri" loading="lazy"></div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tag">Masaüstü · Python &amp; PyQt6</div>
+          <h3>Gym Management System</h3>
+          <p data-i18n="p4_desc">CENG 301 Veri tabanı dersinin projesi için geliştridiğimiz Spor Salonu Yönetimi masaüstü panel uygulaması. Python ve PyQt6 ile geliştirilmiştir. Gelir, üye ve ekipman istatistiklerini gösteren bir gösterge paneli; üye/eğitmen yönetimi; gruplanmış ekipman envanteri (ekleme/silme); check-in, plan ve sınıf takibi içeriyor. Veriler MySQL veritabanında tutuluyor.</p>
+          <div class="proj-stack"><span>Python</span><span>PyQt6</span><span>MySQL</span><span>CRUD</span></div>
         </div>
       </div>
 
@@ -281,28 +348,28 @@
 <section id="skills">
   <div class="wrap">
     <div class="sec-head">
-      <span class="sec-num mono">02</span>
-      <h2>Yetenekler</h2>
+      <span class="sec-num mono">*</span>
+      <h2 data-i18n="sec_skills">Yetenekler</h2>
       <span class="sec-line"></span>
     </div>
     <div class="skill-groups">
       <div class="skill-card">
-        <h3>Programlama Dilleri</h3>
+        <h3 data-i18n="skill_lang">Programlama Dilleri</h3>
         <div class="chips">
           <span class="chip">Python</span><span class="chip">Java</span><span class="chip">C</span>
-          <span class="chip">C++</span><span class="chip">C#</span><span class="chip">SQL</span><span class="chip">Dart</span>
+          <span class="chip">C++</span><span class="chip">C#</span><span class="chip">SQL</span>
         </div>
       </div>
       <div class="skill-card">
-        <h3>Araçlar &amp; Platformlar</h3>
+        <h3 data-i18n="skill_tools">Araçlar &amp; Platformlar</h3>
         <div class="chips">
-          <span class="chip">Unity</span><span class="chip">Flutter</span><span class="chip">AutoCAD</span><span class="chip">Office</span>
+          <span class="chip">Unity</span><span class="chip">Flutter</span><span class="chip">PyQt6</span><span class="chip">MySQL</span><span class="chip">AutoCAD</span><span class="chip">Office</span>
         </div>
       </div>
       <div class="skill-card">
-        <h3>Donanım &amp; Gömülü</h3>
+        <h3 data-i18n="skill_hw">Donanım &amp; Gömülü</h3>
         <div class="chips">
-          <span class="chip">Drone / İHA</span><span class="chip">Lehimleme</span><span class="chip">Donanım montajı</span>
+          <span class="chip" data-i18n="chip_drone">Drone / İHA</span><span class="chip" data-i18n="chip_solder">Lehimleme</span><span class="chip" data-i18n="chip_assembly">Donanım montajı</span>
         </div>
       </div>
     </div>
@@ -312,30 +379,31 @@
 <section id="about">
   <div class="wrap">
     <div class="sec-head">
-      <span class="sec-num mono">03</span>
-      <h2>Hakkımda</h2>
+      <span class="sec-num mono">*</span>
+      <h2 data-i18n="sec_about">Hakkımda</h2>
       <span class="sec-line"></span>
     </div>
     <div class="two-col">
       <div>
-        <p class="about-text">Türk Hava Kurumu Üniversitesi'nde <strong>Bilgisayar Mühendisliği</strong> öğrencisiyim. İlgi alanlarım <strong>yazılım geliştirme, oyun geliştirme, gömülü sistemler ve İHA (drone) teknolojileri</strong>. Eğitimim boyunca Python, Java ve C++ ile çalıştım; bunun yanında Unity ile oyun, Flutter ile mobil uygulama geliştirdim. Stajımda drone sistemleri, donanım montajı ve arayüz geliştirme üzerine pratik deneyim kazandım.</p>
+        <p class="about-text" data-i18n="about_text" data-i18n-html>Türk Hava Kurumu Üniversitesi'nde <strong>Bilgisayar Mühendisliği</strong> öğrencisiyim. İlgi alanlarım <strong>yazılım geliştirme, oyun geliştirme, gömülü sistemler ve İHA (drone) teknolojileri</strong>. Eğitimim boyunca Python, Java ve C++ ile çalıştım; bunun yanında Unity ile oyun, Flutter ile mobil uygulama geliştirdim. Stajımda drone sistemleri, donanım montajı ve arayüz geliştirme üzerine pratik deneyim kazandım.</p>
       </div>
       <div>
         <div class="exp-item">
           <div class="exp-role">Tulen Technology and Defence</div>
-          <div class="exp-meta mono">STAJ · 2 ay</div>
+          <div class="exp-meta mono" data-i18n="exp1_meta">STAJ · 2 ay</div>
           <div class="exp-desc">
             <ul>
-              <li>Drone (İHA) sistemleri üzerine çalıştım</li>
-              <li>Donanım montajı ve lehimleme</li>
-              <li>Basit kullanıcı arayüzü geliştirme</li>
+              <li data-i18n="exp1_li1">Drone (İHA) sistemleri üzerine çalıştım</li>
+              <li data-i18n="exp1_li2">Donanım montajı ve lehimleme</li>
+              <li data-i18n="exp1_li3">Basit kullanıcı arayüzü geliştirme</li>
             </ul>
           </div>
         </div>
         <div class="exp-item">
           <div class="exp-role">Türk Hava Kurumu Üniversitesi</div>
-          <div class="exp-meta mono">2022 – 2027 · Bilgisayar Mühendisliği</div>
-          <div class="exp-desc">Lisans eğitimi · Yazılım, oyun ve gömülü sistemler odağı.</div>
+          <div class="exp-meta mono" data-i18n="exp2_meta">2022 – 2027 · Bilgisayar Mühendisliği</div>
+          <div class="exp-meta mono">THKÜ Roket Topluluğu</div>
+          <div class="exp-meta mono">THKÜ Türk Tarih Topluluğu</div>
         </div>
       </div>
     </div>
@@ -345,10 +413,9 @@
 <section id="contact">
   <div class="wrap">
     <div class="contact-box">
-      <h2>Birlikte çalışalım.</h2>
-      <p>Staj ve iş fırsatlarına açığım. Bir mesaj atmaktan çekinme.</p>
+      <h2 data-i18n="contact_title">Staj ve İş Fırsatları İçin Uygunum</h2>
       <div class="contact-links">
-        <a href="mailto:ahmedyasinkacan@gmail.com">✉ E-posta</a>
+        <a href="mailto:ahmedyasinkacan@gmail.com">✉ ahmedyasinkacan@gmail.com</a>
         <a href="tel:+905340800040">☎ +90 534 080 00 40</a>
         <a href="https://github.com/AhmedYasin47" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
@@ -371,6 +438,113 @@
 </footer>
 
 <script>
+  // ---- Bayrak SVG'leri ----
+  const flags = {
+    tr: `<svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="24" fill="#E30A17"/><circle cx="14" cy="12" r="5" fill="#fff"/><circle cx="15.5" cy="12" r="4" fill="#E30A17"/><path d="M20 12l4.7-1.5-2.9 4v-5l2.9 4z" fill="#fff"/></svg>`,
+    en: `<svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="24" fill="#012169"/><path d="M0 0l36 24M36 0L0 24" stroke="#fff" stroke-width="4"/><path d="M0 0l36 24M36 0L0 24" stroke="#C8102E" stroke-width="2"/><path d="M18 0v24M0 12h36" stroke="#fff" stroke-width="6"/><path d="M18 0v24M0 12h36" stroke="#C8102E" stroke-width="3.5"/></svg>`,
+    fr: `<svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg"><rect width="12" height="24" fill="#0055A4"/><rect x="12" width="12" height="24" fill="#fff"/><rect x="24" width="12" height="24" fill="#EF4135"/></svg>`
+  };
+
+  // ---- Çok dilli içerik sözlüğü (TR / EN / FR) ----
+  const translations = {
+    tr: {
+      nav_projects:"Projeler", nav_skills:"Yetenekler", nav_about:"Hakkımda", nav_contact:"İletişim",
+      hero_tag:"// Bilgisayar Mühendisi · Ankara",
+      hero_title:'Yazılım, <span class="hl">oyun</span> ve mobil<br>uygulama geliştiriyorum.',
+      hero_lead:"Türk Hava Kurumu Üniversitesi'nde Bilgisayar Mühendisliği okuyorum. Mobil uygulamalar, Unity ile 2D/3D oyunlar ve gömülü sistem / İHA projeleri üzerine tecrübe kazandım.",
+      hero_cta1:"Projelere bak →", hero_cta2:"İletişim",
+      sec_projects:"Projeler",
+      p1_desc:"Flutter ile geliştirdiğim bu uygualama, özellikle sosyal medya içeriklerini rahatça galeriye indirmek için tasarlandı. Proje'de api kullanımı ve kullanıcı deneyimi gibi kavramlar üzerine çalıştım.",
+      p2_tag:"Oyun · 2D Pixel-Art", p2_title:"2D Platform Oyunu",
+      p2_desc:"Pixel-art tarzında, dokunmatik kontrollü 2D platform oyunu. Can sistemi, düşmanlar, platform fiziği ve etkileşim mekanikleri içeriyor. Oyun döngüsü ve karakter kontrolü mantığı üzerine çalıştım. Hepsi hazır assettir.",
+      p3_tag:"Oyun · 3D Unity", p3_title:"Dalga Tabanlı Atış Oyunu",
+      p3_desc:"Unity ile geliştirdiğim 3D oyun. Basit Enemy AI ve Game Physics sistemleri içeriyor. Asset implementasyonu ve oyun mekaniği üzerine çalıştım. Oyun 3 dalga üzerine gelen düşmanları temizlemek üzerine kurulu.",
+      p4_desc:"CENG 301 Veri tabanı dersinin projesi için geliştridiğimiz Spor Salonu Yönetimi masaüstü panel uygulaması. Python ve PyQt6 ile geliştirilmiştir. Gelir, üye ve ekipman istatistiklerini gösteren bir gösterge paneli; üye/eğitmen yönetimi; gruplanmış ekipman envanteri (ekleme/silme); check-in, plan ve sınıf takibi içeriyor. Veriler MySQL veritabanında tutuluyor.",
+      sec_skills:"Yetenekler", skill_lang:"Programlama Dilleri", skill_tools:"Araçlar & Platformlar", skill_hw:"Donanım & Gömülü",
+      chip_drone:"Drone / İHA", chip_solder:"Lehimleme", chip_assembly:"Donanım montajı",
+      sec_about:"Hakkımda",
+      about_text:"Türk Hava Kurumu Üniversitesi'nde <strong>Bilgisayar Mühendisliği</strong> öğrencisiyim. İlgi alanlarım <strong>yazılım geliştirme, oyun geliştirme, gömülü sistemler ve İHA (drone) teknolojileri</strong>. Eğitimim boyunca Python, Java ve C++ ile çalıştım; bunun yanında Unity ile oyun, Flutter ile mobil uygulama geliştirdim. Stajımda drone sistemleri, donanım montajı ve arayüz geliştirme üzerine pratik deneyim kazandım.",
+      exp1_meta:"STAJ · 2 ay",
+      exp1_li1:"Drone (İHA) sistemleri üzerine çalıştım", exp1_li2:"Donanım montajı ve lehimleme", exp1_li3:"Basit kullanıcı arayüzü geliştirme",
+      exp2_meta:"2022 – 2027 · Bilgisayar Mühendisliği",
+      contact_title:"Staj ve İş Fırsatları İçin Uygunum"
+    },
+    en: {
+      nav_projects:"Projects", nav_skills:"Skills", nav_about:"About", nav_contact:"Contact",
+      hero_tag:"// Computer Engineer · Ankara",
+      hero_title:'I build software, <span class="hl">games</span> and<br>mobile applications.',
+      hero_lead:"I'm a Computer Engineering student at the University of Turkish Aeronautical Association. I've gained experience in mobile apps, 2D/3D games with Unity, and embedded / UAV (drone) projects.",
+      hero_cta1:"View projects →", hero_cta2:"Contact",
+      sec_projects:"Projects",
+      p1_desc:"A mobile application I built with Flutter, designed to easily save social media content to the gallery. In this project I worked on concepts like API usage and user experience.",
+      p2_tag:"Game · 2D Pixel-Art", p2_title:"2D Platformer Game",
+      p2_desc:"A touch-controlled 2D platformer in pixel-art style. It includes a health system, enemies, platform physics and interaction mechanics. I worked on the game loop and character control logic. All visuals are ready-made assets.",
+      p3_tag:"Game · 3D Unity", p3_title:"Wave-Based Shooter",
+      p3_desc:"A 3D game I built with Unity. It includes basic enemy AI and game physics systems. I worked on asset implementation and game mechanics. The game is based on clearing enemies that arrive over 3 waves.",
+      p4_desc:"A gym management desktop panel application we developed for the CENG 301 Database course project. Built with Python and PyQt6. It includes a dashboard with revenue, member and equipment statistics; member/trainer management; grouped equipment inventory (add/delete); check-in, plan and class tracking. Data is stored in a MySQL database.",
+      sec_skills:"Skills", skill_lang:"Programming Languages", skill_tools:"Tools & Platforms", skill_hw:"Hardware & Embedded",
+      chip_drone:"Drone / UAV", chip_solder:"Soldering", chip_assembly:"Hardware assembly",
+      sec_about:"About",
+      about_text:"I'm a <strong>Computer Engineering</strong> student at the University of Turkish Aeronautical Association. My interests are <strong>software development, game development, embedded systems and UAV (drone) technologies</strong>. Throughout my studies I've worked with Python, Java and C++; alongside that I've built games with Unity and a mobile app with Flutter. During my internship I gained hands-on experience with drone systems, hardware assembly and interface development.",
+      exp1_meta:"INTERNSHIP · 2 months",
+      exp1_li1:"Worked on drone (UAV) systems", exp1_li2:"Hardware assembly and soldering", exp1_li3:"Simple user interface development",
+      exp2_meta:"2022 – 2027 · Computer Engineering",
+      contact_title:"Available for Internship and Job Opportunities"
+    },
+    fr: {
+      nav_projects:"Projets", nav_skills:"Compétences", nav_about:"À propos", nav_contact:"Contact",
+      hero_tag:"// Ingénieur Informatique · Ankara",
+      hero_title:'Je crée des logiciels, des <span class="hl">jeux</span><br>et des applications mobiles.',
+      hero_lead:"Je suis étudiant en génie informatique à l'Université de l'Association Aéronautique Turque. J'ai acquis de l'expérience dans les applications mobiles, les jeux 2D/3D avec Unity et les projets embarqués / de drones (UAV).",
+      hero_cta1:"Voir les projets →", hero_cta2:"Contact",
+      sec_projects:"Projets",
+      p1_desc:"Une application mobile que j'ai développée avec Flutter, conçue pour enregistrer facilement le contenu des réseaux sociaux dans la galerie. Dans ce projet, j'ai travaillé sur des concepts tels que l'utilisation d'API et l'expérience utilisateur.",
+      p2_tag:"Jeu · 2D Pixel-Art", p2_title:"Jeu de plateforme 2D",
+      p2_desc:"Un jeu de plateforme 2D en pixel-art avec commandes tactiles. Il comprend un système de vie, des ennemis, une physique de plateforme et des mécaniques d'interaction. J'ai travaillé sur la boucle de jeu et la logique de contrôle du personnage. Tous les visuels sont des assets prêts à l'emploi.",
+      p3_tag:"Jeu · 3D Unity", p3_title:"Jeu de tir par vagues",
+      p3_desc:"Un jeu 3D que j'ai développé avec Unity. Il comprend une IA ennemie basique et des systèmes de physique de jeu. J'ai travaillé sur l'implémentation des assets et les mécaniques de jeu. Le jeu consiste à éliminer les ennemis arrivant en 3 vagues.",
+      p4_desc:"Une application de bureau de gestion de salle de sport que nous avons développée pour le projet du cours CENG 301 (Bases de données). Développée avec Python et PyQt6. Elle comprend un tableau de bord avec statistiques de revenus, de membres et d'équipements ; la gestion des membres/entraîneurs ; un inventaire d'équipements groupé (ajout/suppression) ; le suivi des check-ins, des plans et des cours. Les données sont stockées dans une base MySQL.",
+      sec_skills:"Compétences", skill_lang:"Langages de programmation", skill_tools:"Outils & Plateformes", skill_hw:"Matériel & Embarqué",
+      chip_drone:"Drone / UAV", chip_solder:"Soudure", chip_assembly:"Assemblage matériel",
+      sec_about:"À propos",
+      about_text:"Je suis étudiant en <strong>génie informatique</strong> à l'Université de l'Association Aéronautique Turque. Mes centres d'intérêt sont le <strong>développement logiciel, le développement de jeux, les systèmes embarqués et les technologies de drones (UAV)</strong>. Au cours de mes études, j'ai travaillé avec Python, Java et C++ ; j'ai également créé des jeux avec Unity et une application mobile avec Flutter. Lors de mon stage, j'ai acquis une expérience pratique des systèmes de drones, de l'assemblage matériel et du développement d'interfaces.",
+      exp1_meta:"STAGE · 2 mois",
+      exp1_li1:"Travail sur les systèmes de drones (UAV)", exp1_li2:"Assemblage matériel et soudure", exp1_li3:"Développement d'interface utilisateur simple",
+      exp2_meta:"2022 – 2027 · Génie Informatique",
+      contact_title:"Disponible pour des stages et des opportunités d'emploi"
+    }
+  };
+
+  // Dili uygula: data-i18n etiketli her elementi günceller
+  function setLanguage(lang){
+    const dict = translations[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if(dict[key] === undefined) return;
+      if(el.hasAttribute('data-i18n-html')) el.innerHTML = dict[key];
+      else el.textContent = dict[key];
+    });
+    document.documentElement.lang = lang;
+    document.getElementById('flagSlot').innerHTML = flags[lang];
+    document.querySelectorAll('#langMenu button').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+  }
+
+  // Menudeki bayraklari doldur
+  document.querySelectorAll('#langMenu .flag').forEach(span => {
+    span.innerHTML = flags[span.getAttribute('data-flag')];
+  });
+
+  // Menu butonlarina tiklama
+  document.querySelectorAll('#langMenu button').forEach(btn => {
+    btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
+  });
+
+  // Açılışta Türkçe
+  setLanguage('tr');
+
+  // ---- Kaydırınca bölümlerin belirmesi (senin kodun) ----
   const reveals = document.querySelectorAll('section');
   reveals.forEach(el => el.classList.add('reveal'));
   const io = new IntersectionObserver((entries) => {
